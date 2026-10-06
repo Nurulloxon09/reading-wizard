@@ -10,33 +10,87 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReadingRouteImport } from './routes/reading'
+import { Route as HistoryReading_testRouteImport } from './routes/history.reading_test'
+import { Route as ReadingReviewAttemptIdRouteImport } from './routes/reading.review.$attemptId'
+import { Route as ReadingTestTestIdRouteImport } from './routes/reading.test.$testId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReadingRoute = ReadingRouteImport.update({
+  id: '/reading',
+  path: '/reading',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryReading_testRoute = HistoryReading_testRouteImport.update({
+  id: '/history/reading_test',
+  path: '/history/reading_test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadingReviewAttemptIdRoute = ReadingReviewAttemptIdRouteImport.update({
+  id: '/review/$attemptId',
+  path: '/review/$attemptId',
+  getParentRoute: () => ReadingRoute,
+} as any)
+const ReadingTestTestIdRoute = ReadingTestTestIdRouteImport.update({
+  id: '/test/$testId',
+  path: '/test/$testId',
+  getParentRoute: () => ReadingRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/reading': typeof ReadingRouteWithChildren
+  '/history/reading_test': typeof HistoryReading_testRoute
+  '/reading/review/$attemptId': typeof ReadingReviewAttemptIdRoute
+  '/reading/test/$testId': typeof ReadingTestTestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/reading': typeof ReadingRouteWithChildren
+  '/history/reading_test': typeof HistoryReading_testRoute
+  '/reading/review/$attemptId': typeof ReadingReviewAttemptIdRoute
+  '/reading/test/$testId': typeof ReadingTestTestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/reading': typeof ReadingRouteWithChildren
+  '/history/reading_test': typeof HistoryReading_testRoute
+  '/reading/review/$attemptId': typeof ReadingReviewAttemptIdRoute
+  '/reading/test/$testId': typeof ReadingTestTestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/reading'
+    | '/history/reading_test'
+    | '/reading/review/$attemptId'
+    | '/reading/test/$testId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/reading'
+    | '/history/reading_test'
+    | '/reading/review/$attemptId'
+    | '/reading/test/$testId'
+  id:
+    | '__root__'
+    | '/'
+    | '/reading'
+    | '/history/reading_test'
+    | '/reading/review/$attemptId'
+    | '/reading/test/$testId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ReadingRoute: typeof ReadingRouteWithChildren
+  HistoryReading_testRoute: typeof HistoryReading_testRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +102,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reading': {
+      id: '/reading'
+      path: '/reading'
+      fullPath: '/reading'
+      preLoaderRoute: typeof ReadingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history/reading_test': {
+      id: '/history/reading_test'
+      path: '/history/reading_test'
+      fullPath: '/history/reading_test'
+      preLoaderRoute: typeof HistoryReading_testRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reading/review/$attemptId': {
+      id: '/reading/review/$attemptId'
+      path: '/review/$attemptId'
+      fullPath: '/reading/review/$attemptId'
+      preLoaderRoute: typeof ReadingReviewAttemptIdRouteImport
+      parentRoute: typeof ReadingRoute
+    }
+    '/reading/test/$testId': {
+      id: '/reading/test/$testId'
+      path: '/test/$testId'
+      fullPath: '/reading/test/$testId'
+      preLoaderRoute: typeof ReadingTestTestIdRouteImport
+      parentRoute: typeof ReadingRoute
+    }
   }
 }
 
+interface ReadingRouteChildren {
+  ReadingReviewAttemptIdRoute: typeof ReadingReviewAttemptIdRoute
+  ReadingTestTestIdRoute: typeof ReadingTestTestIdRoute
+}
+
+const ReadingRouteChildren: ReadingRouteChildren = {
+  ReadingReviewAttemptIdRoute: ReadingReviewAttemptIdRoute,
+  ReadingTestTestIdRoute: ReadingTestTestIdRoute,
+}
+
+const ReadingRouteWithChildren =
+  ReadingRoute._addFileChildren(ReadingRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ReadingRoute: ReadingRouteWithChildren,
+  HistoryReading_testRoute: HistoryReading_testRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

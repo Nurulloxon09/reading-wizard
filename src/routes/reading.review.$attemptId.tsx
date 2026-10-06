@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { ReviewPage } from "@/features/reading/ReviewPage";
+export const Route=createFileRoute("/reading/review/$attemptId")({head:()=>({meta:[{title:"Reading Test Review — IELTStation"},{name:"description",content:"Review your IELTS Reading answers, explanations, and passage evidence."},{property:"og:title",content:"Reading Test Review — IELTStation"},{property:"og:description",content:"Review your IELTS Reading answers, explanations, and passage evidence."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Page});function Page(){const {attemptId}=Route.useParams();return <ReviewPage attemptId={attemptId}/>}

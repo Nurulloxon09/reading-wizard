@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { ReadingHub } from "@/features/reading/ReadingHub";
+export const Route=createFileRoute("/reading")({head:()=>({meta:[{title:"Reading Question Sets — IELTStation"},{name:"description",content:"Practice authentic IELTS Academic Reading question sets and timed passages."},{property:"og:title",content:"Reading Question Sets — IELTStation"},{property:"og:description",content:"Practice authentic IELTS Academic Reading question sets and timed passages."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:ReadingHub});

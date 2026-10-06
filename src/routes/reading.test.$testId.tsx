@@ -1,0 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { getReadingTest } from "@/data/readingTests";
+import { TestPlayer } from "@/features/reading/TestPlayer";
+export const Route=createFileRoute("/reading/test/$testId")({head:({params})=>{const t=getReadingTest(params.testId);const title=t?`${t.title} — IELTS Reading Test`:"Reading Test — IELTStation";return{meta:[{title},{name:"description",content:"Take a timed IELTS Academic Reading passage with instant scoring."},{property:"og:title",content:title},{property:"og:description",content:"Take a timed IELTS Academic Reading passage with instant scoring."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}},component:Page});function Page(){const {testId}=Route.useParams();const test=getReadingTest(testId);return test?<TestPlayer test={test}/>:<div className="grid min-h-screen place-items-center">Test not found</div>}
