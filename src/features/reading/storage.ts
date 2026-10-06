@@ -1,0 +1,10 @@
+export type SavedAttempt = { id:string; testId:string; testTitle:string; submittedAt:string; answers:Record<number,string>; score:number; total:number; band:number; durationSeconds:number };
+const ATTEMPTS="ieltstation-reading-attempts";
+const DRAFTS="ieltstation-reading-drafts";
+export const loadAttempts=():SavedAttempt[]=>{if(typeof window==="undefined")return[];try{return JSON.parse(localStorage.getItem(ATTEMPTS)||"[]")}catch{return[]}};
+export const saveAttempt=(attempt:SavedAttempt)=>localStorage.setItem(ATTEMPTS,JSON.stringify([attempt,...loadAttempts()]));
+export const loadDraft=(testId:string):Record<number,string>=>{if(typeof window==="undefined")return{};try{return JSON.parse(localStorage.getItem(DRAFTS)||"{}")[testId]||{}}catch{return{}}};
+export const saveDraft=(testId:string,answers:Record<number,string>)=>{const all=JSON.parse(localStorage.getItem(DRAFTS)||"{}");all[testId]=answers;localStorage.setItem(DRAFTS,JSON.stringify(all))};
+export const clearDraft=(testId:string)=>{const all=JSON.parse(localStorage.getItem(DRAFTS)||"{}");delete all[testId];localStorage.setItem(DRAFTS,JSON.stringify(all))};
+export const bandFrom=(score:number,total:number)=>{const raw=score/total*40;if(raw>=39)return 9;if(raw>=37)return 8.5;if(raw>=35)return 8;if(raw>=33)return 7.5;if(raw>=30)return 7;if(raw>=27)return 6.5;if(raw>=23)return 6;if(raw>=19)return 5.5;if(raw>=15)return 5;return 4.5};
+export const normalise=(value:string)=>value.trim().toLowerCase().replace(/[.]/g,"");
