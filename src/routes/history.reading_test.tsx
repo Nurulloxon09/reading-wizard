@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { HistoryPage } from "@/features/reading/HistoryPage";
+export const Route=createFileRoute("/history/reading_test")({head:()=>({meta:[{title:"My Reading Attempts — IELTStation"},{name:"description",content:"View your saved IELTS Reading scores, accuracy, and review history."},{property:"og:title",content:"My Reading Attempts — IELTStation"},{property:"og:description",content:"View your saved IELTS Reading scores, accuracy, and review history."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:HistoryPage});
